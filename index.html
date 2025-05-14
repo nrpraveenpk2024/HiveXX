@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bee Monitoring</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="" alt="Bee Logo">
+                <h2>BeeSmart</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="#dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#market"><i class="fas fa-chart-line"></i> Market Prices</a></li>
+                    <li><a href="#calculator"><i class="fas fa-calculator"></i> Honey Calculator</a></li>
+                    <li><a href="#education"><i class="fas fa-book"></i> Education</a></li>
+                    <li><a href="#profile"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1 id="hive-name">Hive Name</h1>
+                <div class="user-profile" id="user-profile-btn">
+                    <img src="https://via.placeholder.com/40" alt="User Profile">
+                    <span id="username-display">User</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section">
+                <div class="status-cards">
+                    <div class="card">
+                        <h3>Temperature</h3>
+                        <div class="value" id="temperature">34°C</div>
+                        <div class="status good">Optimal</div>
+                    </div>
+                    <div class="card">
+                        <h3>Humidity</h3>
+                        <div class="value" id="humidity">65%</div>
+                        <div class="status warning">Moderate</div>
+                    </div>
+                    <div class="card">
+                        <h3>Honey Weight</h3>
+                        <div class="value" id="honey-weight">12.5 kg</div>
+                        <div class="status good">Good</div>
+                    </div>
+                    <div class="card">
+                        <h3>Bee Status</h3>
+                        <div class="value" id="bee-status">Active</div>
+                        <div class="status good">Normal</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Temperature (Last 7 Days)</h3>
+                        <canvas id="tempChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Humidity (Last 7 Days)</h3>
+                        <canvas id="humidityChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Honey Production (Last 7 Days)</h3>
+                        <canvas id="honeyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section (Hidden by default) -->
+            <section id="profile" class="content-section hidden">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <img src="https://via.placeholder.com/100" alt="Profile Picture">
+                        <h2 id="profile-username">Thejas</h2>
+                        <p id="profile-email">thejas9@gmail.com</p>
+                    </div>
+                    <div class="profile-details">
+                        <h3>Account Information</h3>
+                        <div class="detail-item">
+                            <span>Hive Name:sanskruthi farm house</span>
+                            <span id="profile-hive">Sunny Meadows</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Location:</span>
+                            <span id="profile-location">Hassan </span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Member Since:</span>
+                            <span id="profile-join-date">May 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Prices Section (Hidden by default) -->
+            <section id="market" class="content-section hidden">
+                <h2>Honey Market Prices</h2>
+                <div class="market-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Price (per kg)</th>
+                                <th>Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody id="market-data">
+                            <!-- Filled by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Calculator Section (Hidden by default) -->
+            <section id="calculator" class="content-section hidden">
+                <h2>Honey Production Calculator</h2>
+                <div class="calculator-form">
+                    <div class="input-group">
+                        <label for="hive-count">Number of Hives:</label>
+                        <input type="number" id="hive-count" min="1" value="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="avg-production">Average Production per Hive (kg):</label>
+                        <input type="number" id="avg-production" min="0" step="0.1" value="15">
+                    </div>
+                    <div class="input-group">
+                        <label for="honey-price">Price per kg ($):</label>
+                        <input type="number" id="honey-price" min="0" step="0.1" value="12.5">
+                    </div>
+                    <button id="calculate-btn">Calculate</button>
+                    <div class="results" id="calculator-results">
+                        <h3>Projected Results</h3>
+                        <p>Total Honey Production: <span id="total-production">0</span> kg</p>
+                        <p>Estimated Revenue: $<span id="total-revenue">0</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section (Hidden by default) -->
+            <section id="education" class="content-section hidden">
+                <h2>Beekeeping Education</h2>
+                <div class="education-cards">
+                    <div class="edu-card">
+                        <h3>Getting Started</h3>
+                        <p>Beginner's guide to setting up your first beehive.</p>
+                        <button class="edu-btn">Read More</button>
+                    </div>
+                    <div class="edu-card">
+                        <h3>Hive Maintenance</h3>
+                        <p>Best practices for keeping your bees healthy.</p>
+                        <button class="edu-btn">Read More</button>
+                    </div>
+                    <div class="edu-card">
+                        <h3>Harvesting Honey</h3>
+                        <p>How and when to harvest honey without harming bees.</p>
+                        <button class="edu-btn">Read More</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Login/Signup Modal -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="login-tab">Login</button>
+                <button class="tab-btn" id="signup-tab">Sign Up</button>
+            </div>
+            
+            <form id="login-form" class="auth-form">
+                <div class="input-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+            
+            <form id="signup-form" class="auth-form hidden">
+                <div class="input-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="input-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="input-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="input-group">
+                    <label for="signup-hive">Hive Name</label>
+                    <input type="text" id="signup-hive" required>
+                </div>
+                <button type="submit" class="auth-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/charts.js"></script>
+</body>
+</html>
